@@ -1,0 +1,41 @@
+{"qid":"q01","type":"lexical","question":"KintaiOneでのリモートワーク申請の締切はいつですか","gold":[["01_remote_work","4. 申請手続き"]],"answer_keywords":["前営業日","17時"],"note":"固有名詞一致。BM25が有利"}
+{"qid":"q02","type":"lexical","question":"VaultTeamとは何ですか","gold":[["03_security","2. アカウントと認証"]],"answer_keywords":["パスワードマネージャー"],"note":"固有名詞。ベクトルは未知語に弱い"}
+{"qid":"q03","type":"lexical","question":"SecureLinkはどんなときに使いますか","gold":[["03_security","4. ネットワーク"]],"answer_keywords":["VPN","社外","公衆Wi-Fi"],"note":"固有名詞"}
+{"qid":"q04","type":"lexical","question":"KeihiFlowの申請締め日と支払日を教えてください","gold":[["02_expense","2. 精算システムと締め日"]],"answer_keywords":["末日","25日"],"note":"固有名詞"}
+{"qid":"q05","type":"lexical","question":"Sev1の障害が起きたら誰にいつエスカレーションしますか","gold":[["05_dev_guideline","7. 障害対応"]],"answer_keywords":["15分","CTO"],"note":"記号的キーワード"}
+{"qid":"q06","type":"semantic","question":"家で働くときにお金はもらえますか","gold":[["01_remote_work","6. 通信費および設備の補助"],["04_onboarding_faq","経費について"]],"answer_keywords":["5,000円","在宅勤務手当"],"note":"口語の言い換え。ベクトルが有利"}
+{"qid":"q07","type":"semantic","question":"チャットAIに社内の資料を貼り付けても大丈夫でしょうか","gold":[["03_security","5. 生成AIの業務利用"]],"answer_keywords":["法人向け","禁止","極秘","秘密"],"note":"「生成AI」という語を使わない言い換え"}
+{"qid":"q08","type":"semantic","question":"椅子や机を買った費用はどう扱われますか","gold":[["01_remote_work","6. 通信費および設備の補助"],["02_expense","7. 在宅勤務関連費用"]],"answer_keywords":["50,000円","上限"],"note":"言い換え + 複数文書"}
+{"qid":"q09","type":"semantic","question":"同僚のコードを見るときのお作法を教えて","gold":[["05_dev_guideline","3. コードレビュー"]],"answer_keywords":["2名以上","must","imo"],"note":"「コードレビュー」という語を使わない"}
+{"qid":"q10","type":"semantic","question":"がんばりをどう数字で示せばいいですか。ふわっとした目標はダメですか","gold":[["06_evaluation","3. 目標設定のルール"]],"answer_keywords":["定量的","差し戻"],"note":"口語・意図の推論が必要"}
+{"qid":"q11","type":"semantic","question":"パソコンを失くしてしまったらどうすればいいですか","gold":[["03_security","6. インシデント発生時の対応"]],"answer_keywords":["30分","リモートワイプ","security-incident"],"note":"「紛失」→「インシデント」の意味的橋渡し"}
+{"qid":"q12","type":"semantic","question":"評価に納得がいかない場合の手段はありますか","gold":[["06_evaluation","7. 評価に対する異議申立て"]],"answer_keywords":["10営業日","人事部","書面"],"note":"言い換え"}
+{"qid":"q13","type":"multi_doc","question":"カフェで仕事をするときに守るべきことを、セキュリティと就業ルールの両面から教えてください","gold":[["01_remote_work","7. 執務環境の要件"],["03_security","4. ネットワーク"]],"answer_keywords":["VPN","プライバシーフィルタ","公衆Wi-Fi"],"note":"2文書必須。top-kを増やすか融合が効く"}
+{"qid":"q14","type":"multi_doc","question":"入社してから3ヶ月間の働き方と、その根拠となる規程を教えてください","gold":[["01_remote_work","2. 適用範囲"],["04_onboarding_faq","働き方について"]],"answer_keywords":["3ヶ月","出社","上長"],"note":"要約文書と正規程の両方"}
+{"qid":"q15","type":"multi_doc","question":"外部カンファレンスに参加した後にやることは何ですか","gold":[["02_expense","6. 書籍・研修費"]],"answer_keywords":["2週間","共有資料","社内Wiki"],"note":"条件付きの手続き"}
+{"qid":"q16","type":"multi_doc","question":"APIキーを誤ってGitHubに上げてしまいました。何をどの順番でやるべきですか","gold":[["05_dev_guideline","8. 秘密情報の管理"],["03_security","6. インシデント発生時の対応"]],"answer_keywords":["失効","security-incident","履歴の書き換え"],"note":"手順が2文書に分散"}
+{"qid":"q17","type":"distractor","question":"在宅勤務手当は経費精算で申請するのですか","gold":[["02_expense","7. 在宅勤務関連費用"],["04_onboarding_faq","経費について"]],"answer_keywords":["対象外","給与"],"note":"01と02で書き方が違い混同しやすい。リランクが効く"}
+{"qid":"q18","type":"distractor","question":"多要素認証には何を使えばよいですか。SMSでもよいですか","gold":[["03_security","2. アカウントと認証"]],"answer_keywords":["TOTP","FIDO2","廃止"],"note":"04にも似た記述があり、より正確な03を上位に出せるか"}
+{"qid":"q19","type":"distractor","question":"コアタイムは何時から何時までですか","gold":[["01_remote_work","5. 勤務時間およびコアタイム"],["04_onboarding_faq","働き方について"]],"answer_keywords":["11時","15時"],"note":"2文書に同内容。どちらもgoldだが片方しか出ないと再現率が落ちる"}
+{"qid":"q20","type":"distractor","question":"私物のスマートフォンで会社のメールを見られますか","gold":[["03_security","3. 端末管理"],["04_onboarding_faq","PC・アカウントについて"]],"answer_keywords":["MDM","登録","閲覧"],"note":"条件付きの許可。「BYOD禁止」と誤読しやすい"}
+{"qid":"q21","type":"numeric","question":"新幹線のグリーン車はどんな条件で使えますか","gold":[["02_expense","4. 交通費"]],"answer_keywords":["3時間","部長承認"],"note":"条件の数値が肝"}
+{"qid":"q22","type":"numeric","question":"プルリクエストの推奨サイズはどれくらいですか","gold":[["05_dev_guideline","2. プルリクエスト"]],"answer_keywords":["400行"],"note":""}
+{"qid":"q23","type":"numeric","question":"テストカバレッジの基準は何%ですか","gold":[["05_dev_guideline","4. テスト"]],"answer_keywords":["80%"],"note":""}
+{"qid":"q24","type":"numeric","question":"賞与はS評価だと何倍になりますか","gold":[["06_evaluation","6. 評価結果の処遇への反映"]],"answer_keywords":["1.5"],"note":""}
+{"qid":"q25","type":"numeric","question":"社外の取引先との会食は1人いくらまでですか","gold":[["02_expense","5. 会議費・交際費"]],"answer_keywords":["10,000円","事前申請"],"note":"社内会議3,000円と混同しやすい"}
+{"qid":"q26","type":"numeric","question":"パスワードは何文字以上必要で、定期変更は必要ですか","gold":[["03_security","2. アカウントと認証"]],"answer_keywords":["14文字","求めない"],"note":"否定形を含む"}
+{"qid":"q27","type":"semantic","question":"海外に住みながら働くことはできますか","gold":[["01_remote_work","8. 海外からのリモートワーク"]],"answer_keywords":["原則","認めない","30日"],"note":"例外条件まで拾えるか"}
+{"qid":"q28","type":"semantic","question":"リリースをしてはいけない曜日はありますか","gold":[["05_dev_guideline","6. リリース手順"]],"answer_keywords":["金曜","連休前日","禁止"],"note":""}
+{"qid":"q29","type":"semantic","question":"領収書がもらえなかった支出はどうすればよいですか","gold":[["02_expense","3. 領収書の取扱い"]],"answer_keywords":["3,000円","慶弔費","自動販売機"],"note":"例外リストの網羅性"}
+{"qid":"q30","type":"semantic","question":"評価の目標はいくつ立てればよいですか","gold":[["06_evaluation","3. 目標設定のルール"]],"answer_keywords":["3","5"],"note":""}
+{"qid":"q31","type":"multi_doc","question":"技術を勉強して社内共有する取り組みは、評価上どう扱われますか。費用は出ますか","gold":[["06_evaluation","3. 目標設定のルール"],["02_expense","6. 書籍・研修費"]],"answer_keywords":["挑戦目標","育成・貢献目標","50,000円"],"note":"評価制度と経費の横断。今回の学習テーマそのもの"}
+{"qid":"q32","type":"unanswerable","question":"産前産後休業の取得可能期間は何週間ですか","gold":[],"answer_keywords":[],"note":"コーパスに存在しない。ハルシネーション検出用"}
+{"qid":"q33","type":"unanswerable","question":"当社の2026年度の売上目標はいくらですか","gold":[],"answer_keywords":[],"note":"存在しない"}
+{"qid":"q34","type":"unanswerable","question":"社員食堂のメニューを教えてください","gold":[],"answer_keywords":[],"note":"存在しない"}
+{"qid":"q35","type":"unanswerable","question":"育児休業は最長で何歳まで取得できますか","gold":[],"answer_keywords":[],"note":"人事系だが規程に無い。もっともらしい誤答が出やすい"}
+{"qid":"q36","type":"unanswerable","question":"退職金の算定方法を教えてください","gold":[],"answer_keywords":[],"note":"退職の記述はあるが退職金は無い。部分一致で誤検索されやすい"}
+{"qid":"q37","type":"unanswerable","question":"副業は許可されていますか","gold":[],"answer_keywords":[],"note":"就業規則の話題だが記載なし"}
+{"qid":"q38","type":"unanswerable","question":"本番データベースのバックアップ保持期間は何日ですか","gold":[],"answer_keywords":[],"note":"開発ガイドラインに近いが記載なし"}
+{"qid":"q39","type":"unanswerable","question":"健康診断はいつ実施されますか","gold":[],"answer_keywords":[],"note":"人事系だが記載なし"}
+{"qid":"q40","type":"unanswerable","question":"オフィスの入館可能時間は何時から何時までですか","gold":[],"answer_keywords":[],"note":"入館証の記述はあるが時間は無い"}
+{"qid":"q41","type":"unanswerable","question":"有給休暇の付与日数と繰越の上限を教えてください","gold":[],"answer_keywords":[],"note":"休暇規程は本コーパスに含まれない"}

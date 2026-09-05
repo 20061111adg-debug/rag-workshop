@@ -1,0 +1,11 @@
+# Python 仮想環境（639MB。内部に絶対パスを持つため移動できない。作り直す前提）
+.venv/
+__pycache__/
+*.py[cod]
+
+# モデルキャッシュをプロジェクト内に置いた場合
+.cache/
+models/
+
+# macOS
+.DS_Store
