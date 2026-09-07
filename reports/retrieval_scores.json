@@ -75,7 +75,7 @@
       }
     },
     "n_chunks": 29,
-    "latency_ms": 0.03641945161275874
+    "latency_ms": 0.08879170967735298
   },
   "S2 fixed + E5": {
     "overall": {
@@ -153,7 +153,7 @@
       }
     },
     "n_chunks": 29,
-    "latency_ms": 6.563104806451679
+    "latency_ms": 6.287975903225732
   },
   "S2 fixed_overlap + E5": {
     "overall": {
@@ -231,7 +231,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 6.118150580644831
+    "latency_ms": 5.773274064516098
   },
   "S2 heading + E5": {
     "overall": {
@@ -309,7 +309,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 5.921231258064441
+    "latency_ms": 5.630239322580932
   },
   "S2 heading_context + E5": {
     "overall": {
@@ -387,7 +387,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 5.852591290322738
+    "latency_ms": 5.584090096774154
   },
   "S3 BM25 単独(素朴 w=1.0)": {
     "overall": {
@@ -465,7 +465,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 0.03475941935486694
+    "latency_ms": 0.03527154838698079
   },
   "S3 BM25 単独(機能語減衰)": {
     "overall": {
@@ -543,7 +543,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 0.03208206451639002
+    "latency_ms": 0.03226477419379916
   },
   "S3 Dense 単独(LSA)": {
     "overall": {
@@ -621,7 +621,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 0.035526838709940986
+    "latency_ms": 0.03439116129025097
   },
   "S3 Dense 単独(E5)": {
     "overall": {
@@ -699,7 +699,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 5.803674612903341
+    "latency_ms": 5.505646451612985
   },
   "S3 Hybrid RRF": {
     "overall": {
@@ -777,7 +777,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 5.843452903226004
+    "latency_ms": 5.637456999999991
   },
   "S3 Hybrid 加重和": {
     "overall": {
@@ -855,7 +855,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 5.8436586451609775
+    "latency_ms": 5.675024161290298
   },
   "S3 Hybrid RRF(dense重視2:1)": {
     "overall": {
@@ -933,7 +933,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 5.832103516129241
+    "latency_ms": 5.67674458064509
   },
   "S4 Hybrid + MMR(λ=0.7)": {
     "overall": {
@@ -1011,7 +1011,7 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 11.796225741935725
+    "latency_ms": 12.126779645161461
   },
   "S4 Hybrid + MMR(λ=0.5)": {
     "overall": {
@@ -1089,6 +1089,6 @@
       }
     },
     "n_chunks": 43,
-    "latency_ms": 11.931506645161388
+    "latency_ms": 11.410529548387176
   }
 }
