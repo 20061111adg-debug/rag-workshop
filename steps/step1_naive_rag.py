@@ -34,6 +34,7 @@ def load_texts() -> list[tuple[str, str]]:
     for p in sorted(CORPUS_DIR.glob("*.md")):
         raw = p.read_text(encoding="utf-8")
         body = re.sub(r"\A---.*?---\s*", "", raw, flags=re.DOTALL)  # frontmatter除去
+        body = re.sub(r"^> .*$\n?", "", body, flags=re.MULTILINE)  # ダミー文書の注意書きを除去
         out.append((p.stem, body))
     return out
 

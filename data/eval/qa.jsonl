@@ -3,7 +3,7 @@
 {"qid":"q03","type":"lexical","question":"SecureLinkはどんなときに使いますか","gold":[["03_security","4. ネットワーク"]],"answer_keywords":["VPN","社外","公衆Wi-Fi"],"note":"固有名詞"}
 {"qid":"q04","type":"lexical","question":"KeihiFlowの申請締め日と支払日を教えてください","gold":[["02_expense","2. 精算システムと締め日"]],"answer_keywords":["末日","25日"],"note":"固有名詞"}
 {"qid":"q05","type":"lexical","question":"Sev1の障害が起きたら誰にいつエスカレーションしますか","gold":[["05_dev_guideline","7. 障害対応"]],"answer_keywords":["15分","CTO"],"note":"記号的キーワード"}
-{"qid":"q06","type":"semantic","question":"家で働くときにお金はもらえますか","gold":[["01_remote_work","6. 通信費および設備の補助"],["04_onboarding_faq","経費について"]],"answer_keywords":["5,000円","在宅勤務手当"],"note":"口語の言い換え。ベクトルが有利"}
+{"qid":"q06","type":"semantic","question":"家で働くときにお金はもらえますか","gold":[["01_remote_work","6. 通信費および設備の補助"],["04_onboarding_faq","働き方について"]],"answer_keywords":["5,000円","在宅勤務手当"],"note":"口語の言い換え。ベクトルが有利"}
 {"qid":"q07","type":"semantic","question":"チャットAIに社内の資料を貼り付けても大丈夫でしょうか","gold":[["03_security","5. 生成AIの業務利用"]],"answer_keywords":["法人向け","禁止","極秘","秘密"],"note":"「生成AI」という語を使わない言い換え"}
 {"qid":"q08","type":"semantic","question":"椅子や机を買った費用はどう扱われますか","gold":[["01_remote_work","6. 通信費および設備の補助"],["02_expense","7. 在宅勤務関連費用"]],"answer_keywords":["50,000円","上限"],"note":"言い換え + 複数文書"}
 {"qid":"q09","type":"semantic","question":"同僚のコードを見るときのお作法を教えて","gold":[["05_dev_guideline","3. コードレビュー"]],"answer_keywords":["2名以上","must","imo"],"note":"「コードレビュー」という語を使わない"}
@@ -14,7 +14,7 @@
 {"qid":"q14","type":"multi_doc","question":"入社してから3ヶ月間の働き方と、その根拠となる規程を教えてください","gold":[["01_remote_work","2. 適用範囲"],["04_onboarding_faq","働き方について"]],"answer_keywords":["3ヶ月","出社","上長"],"note":"要約文書と正規程の両方"}
 {"qid":"q15","type":"multi_doc","question":"外部カンファレンスに参加した後にやることは何ですか","gold":[["02_expense","6. 書籍・研修費"]],"answer_keywords":["2週間","共有資料","社内Wiki"],"note":"条件付きの手続き"}
 {"qid":"q16","type":"multi_doc","question":"APIキーを誤ってGitHubに上げてしまいました。何をどの順番でやるべきですか","gold":[["05_dev_guideline","8. 秘密情報の管理"],["03_security","6. インシデント発生時の対応"]],"answer_keywords":["失効","security-incident","履歴の書き換え"],"note":"手順が2文書に分散"}
-{"qid":"q17","type":"distractor","question":"在宅勤務手当は経費精算で申請するのですか","gold":[["02_expense","7. 在宅勤務関連費用"],["04_onboarding_faq","経費について"]],"answer_keywords":["対象外","給与"],"note":"01と02で書き方が違い混同しやすい。リランクが効く"}
+{"qid":"q17","type":"distractor","question":"在宅勤務手当は経費精算で申請するのですか","gold":[["02_expense","7. 在宅勤務関連費用"],["04_onboarding_faq","働き方について"]],"answer_keywords":["対象外","給与"],"note":"01と02で書き方が違い混同しやすい。リランクが効く"}
 {"qid":"q18","type":"distractor","question":"多要素認証には何を使えばよいですか。SMSでもよいですか","gold":[["03_security","2. アカウントと認証"]],"answer_keywords":["TOTP","FIDO2","廃止"],"note":"04にも似た記述があり、より正確な03を上位に出せるか"}
 {"qid":"q19","type":"distractor","question":"コアタイムは何時から何時までですか","gold":[["01_remote_work","5. 勤務時間およびコアタイム"],["04_onboarding_faq","働き方について"]],"answer_keywords":["11時","15時"],"note":"2文書に同内容。どちらもgoldだが片方しか出ないと再現率が落ちる"}
 {"qid":"q20","type":"distractor","question":"私物のスマートフォンで会社のメールを見られますか","gold":[["03_security","3. 端末管理"],["04_onboarding_faq","PC・アカウントについて"]],"answer_keywords":["MDM","登録","閲覧"],"note":"条件付きの許可。「BYOD禁止」と誤読しやすい"}
