@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>社内文書アシスタント — RAG デモ</title>
+<style>
+  :root{
+    --bg:#f7f7f8; --panel:#fff; --ink:#1a1a1c; --muted:#6b6b73; --line:#e3e3e8;
+    --accent:#2f6df6; --accent-soft:#eaf0ff; --warn:#b45309; --ok:#0f766e;
+    --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#141416; --panel:#1c1c1f; --ink:#ececee; --muted:#9a9aa3; --line:#2c2c31;
+           --accent:#6b9bff; --accent-soft:#1e2740; --warn:#fbbf24; --ok:#5eead4; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.7 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif}
+  .wrap{max-width:900px;margin:0 auto;padding:0 16px 140px}
+
+  header{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);
+         padding:14px 0 12px;margin-bottom:20px}
+  .title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  h1{font-size:17px;margin:0;font-weight:650}
+  .sub{font-size:12px;color:var(--muted)}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  select,button{font:inherit;font-size:13px;color:var(--ink);background:var(--panel);
+                border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+  button{cursor:pointer}
+  button:hover:not(:disabled){border-color:var(--accent)}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .note{font-size:12px;color:var(--muted)}
+
+  .msg{margin:18px 0}
+  .q{background:var(--accent-soft);border-radius:12px;padding:10px 14px;display:inline-block;max-width:90%}
+  .a{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .a pre{margin:0;white-space:pre-wrap;word-break:break-word;font:inherit}
+  .meta{font-size:12px;color:var(--muted);margin-top:10px;display:flex;gap:14px;flex-wrap:wrap}
+  .badge{font-family:var(--mono);font-size:11px;background:var(--bg);border:1px solid var(--line);
+         border-radius:5px;padding:1px 6px}
+
+  details.src{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+  details.src>summary{cursor:pointer;font-size:13px;color:var(--muted)}
+  .card{border-left:3px solid var(--accent);background:var(--bg);border-radius:0 8px 8px 0;
+        padding:10px 14px;margin:10px 0}
+  .card h4{margin:0 0 4px;font-size:13px;font-weight:650}
+  .card .m{font-size:11px;color:var(--muted);margin-bottom:6px}
+  .card p{margin:0;font-size:13px;white-space:pre-wrap;color:var(--ink)}
+
+  table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}
+  th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+  th{font-size:11px;color:var(--muted);font-weight:600}
+  td.num{text-align:right;font-family:var(--mono);font-size:12px}
+
+  .composer{position:fixed;left:0;right:0;bottom:0;background:var(--bg);
+            border-top:1px solid var(--line);padding:12px 16px}
+  .composer .inner{max-width:900px;margin:0 auto;display:flex;gap:8px}
+  textarea{flex:1;font:inherit;font-size:15px;color:var(--ink);background:var(--panel);
+           border:1px solid var(--line);border-radius:10px;padding:10px 12px;resize:none;height:44px;
+           max-height:140px;overflow-y:auto}
+  textarea:focus{outline:2px solid var(--accent);outline-offset:-1px}
+  .send{background:var(--accent);color:#fff;border:none;padding:0 20px;border-radius:10px;font-weight:600}
+  .examples{display:flex;gap:6px;flex-wrap:wrap;margin:14px 0 4px}
+  .ex{font-size:12px;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+      padding:5px 12px;cursor:pointer;color:var(--muted)}
+  .ex:hover{border-color:var(--accent);color:var(--ink)}
+  .err{color:var(--warn);font-size:13px}
+  .spin{display:inline-block;width:11px;height:11px;border:2px solid var(--line);
+        border-top-color:var(--accent);border-radius:50%;animation:s .7s linear infinite;vertical-align:-1px}
+  @keyframes s{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header><div class="wrap" style="padding-bottom:0">
+  <div class="title">
+    <h1>社内文書アシスタント</h1>
+    <span class="sub" id="stat">読み込み中…</span>
+  </div>
+  <div class="controls">
+    <label class="note">検索構成
+      <select id="config"></select>
+    </label>
+    <label class="note">参照件数
+      <select id="topk"><option>1</option><option selected>3</option><option>5</option></select>
+    </label>
+    <button id="cmp">全構成を比較</button>
+    <span class="note" id="cfgnote"></span>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <div class="msg a">
+    <pre>社内規程について質問してください。回答は必ず文書からの引用付きで返します。
+
+⚠ 対象の文書はRAG学習用の<b>架空の文書</b>です。実在の規程ではありません。</pre>
+    <div class="examples" id="ex"></div>
+  </div>
+  <div id="log"></div>
+</div>
+
+<div class="composer"><div class="inner">
+  <textarea id="q" placeholder="例：在宅勤務の手当はいくらですか（Enterで送信 / Shift+Enterで改行）"></textarea>
+  <button class="send" id="send">送信</button>
+</div></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const log = $('#log'), qbox = $('#q');
+const EXAMPLES = [
+  '家で働くとお金はもらえますか',
+  'パソコンを失くしてしまったら？',
+  'チャットAIに社内資料を貼ってもいい？',
+  'カフェで仕事するときの注意点は',
+  '産前産後休業は何週間ですか',
+];
+
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls)e.className=cls;
+  if(html!==undefined)e.innerHTML=html; return e; }
+const esc = s => s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+async function init(){
+  const r = await fetch('/api/configs').then(r=>r.json());
+  const sel = $('#config');
+  r.configs.forEach(c => sel.add(new Option(c.label, c.key)));
+  sel.value = 'best';
+  const notes = Object.fromEntries(r.configs.map(c=>[c.key,c.note]));
+  const upd = () => $('#cfgnote').textContent = '— ' + notes[sel.value];
+  sel.onchange = upd; upd();
+  $('#stat').textContent = `文書${r.docs}件 / チャンク${r.chunks}件 / 回答生成: ${r.generator}`;
+  EXAMPLES.forEach(t => {
+    const b = el('button','ex',esc(t));
+    b.onclick = () => { qbox.value = t; ask(); };
+    $('#ex').append(b);
+  });
+}
+
+function sourceCard(s){
+  return `<div class="card">
+    <h4>[${s.rank}] ${esc(s.title)} / ${esc(s.heading)}</h4>
+    <div class="m">スコア ${s.score} ・ 更新日 ${esc(s.updated||'不明')} ・ 管掌 ${esc(s.owner||'不明')}</div>
+    <p>${esc(s.text)}</p></div>`;
+}
+
+async function post(url, body){
+  const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'},
+                             body: JSON.stringify(body)});
+  const j = await r.json();
+  if(!r.ok) throw new Error(j.error || r.statusText);
+  return j;
+}
+
+function pending(question){
+  log.append(el('div','msg', `<div class="q">${esc(question)}</div>`));
+  const box = el('div','msg a', '<span class="spin"></span> 検索しています…');
+  log.append(box);
+  window.scrollTo(0, document.body.scrollHeight);
+  return box;
+}
+
+async function ask(){
+  const question = qbox.value.trim(); if(!question) return;
+  qbox.value=''; $('#send').disabled=true;
+  const box = pending(question);
+  try{
+    const d = await post('/api/ask', {question, config:$('#config').value, top_k:+$('#topk').value});
+    box.innerHTML = `<pre>${esc(d.answer)}</pre>
+      <div class="meta">
+        <span>合計 <span class="badge">${d.elapsed_ms}ms</span></span>
+        <span>検索 <span class="badge">${d.timings['検索']}ms</span></span>
+        <span>生成 <span class="badge">${d.timings['生成']}ms</span></span>
+        <span>構成 <span class="badge">${esc($('#config').selectedOptions[0].text)}</span></span>
+      </div>
+      <details class="src" open><summary>参照した文書 ${d.sources.length}件</summary>
+        ${d.sources.map(sourceCard).join('')}</details>`;
+  }catch(e){ box.innerHTML = `<span class="err">エラー: ${esc(e.message)}</span>`; }
+  $('#send').disabled=false; window.scrollTo(0, document.body.scrollHeight);
+}
+
+async function compare(){
+  const question = qbox.value.trim();
+  if(!question){ qbox.focus(); qbox.placeholder='比較する質問を入力してください'; return; }
+  qbox.value=''; $('#cmp').disabled=true;
+  const box = pending(question);
+  try{
+    const {results} = await post('/api/compare', {question});
+    box.innerHTML = `<b>構成ごとの1位を比較</b>
+      <table><tr><th>構成</th><th>1位に出た文書</th><th class="num">スコア</th><th class="num">検索時間</th></tr>
+      ${results.map(r=>`<tr>
+        <td>${esc(r.label)}<div class="m" style="font-size:11px;color:var(--muted)">${esc(r.note)}</div></td>
+        <td>${r.top ? esc(r.top.title)+' / '+esc(r.top.heading) : '<span class="err">該当なし</span>'}</td>
+        <td class="num">${r.top ? r.top.score : '—'}</td>
+        <td class="num">${r.elapsed_ms}ms</td></tr>`).join('')}
+      </table>
+      <div class="meta">同じ質問でも構成で結果が変わること、精度と速度が引き合うことを確認できます。</div>`;
+  }catch(e){ box.innerHTML = `<span class="err">エラー: ${esc(e.message)}</span>`; }
+  $('#cmp').disabled=false; window.scrollTo(0, document.body.scrollHeight);
+}
+
+$('#send').onclick = ask;
+$('#cmp').onclick = compare;
+qbox.addEventListener('keydown', e => {
+  if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); ask(); }
+});
+qbox.addEventListener('input', () => {
+  qbox.style.height='44px'; qbox.style.height = Math.min(qbox.scrollHeight,140)+'px';
+});
+init();
+</script>
+</body></html>

@@ -42,6 +42,21 @@ python3 -m venv .venv && ./.venv/bin/pip install -r requirements.txt
 ./.venv/bin/python demo.py
 ```
 
+ブラウザで動くチャット画面もある。
+
+```bash
+./.venv/bin/python app.py
+```
+
+`http://localhost:8000` を開く。質問すると引用付きで回答し、
+「全構成を比較」ボタンで**同じ質問に対する5構成の1位と速度を並べて見られる**。
+Webフレームワークは使わず Python 標準の `http.server` だけで書いてある（202行）。
+
+例えば「VaultTeamって何ですか」で比較すると、
+リランク構成だけが正解（情報セキュリティガイドライン / アカウントと認証）に辿り着き、
+他の4構成はすべてFAQに流れる。同時に検索時間が 0.1ms → 296ms と
+3桁変わることも確認できる。**精度と速度が引き合うことを1画面で示せる。**
+
 APIキーは不要。初回のみ埋め込みモデル（約470MB）を自動ダウンロードする。
 `--llm` を付けたときだけ Claude API を使う（`ANTHROPIC_API_KEY` が必要）。
 
@@ -352,8 +367,13 @@ rag-workshop/
 ├── data/
 │   ├── corpus/              # 疑似社内文書 6件（規程・FAQ・ガイドライン）
 │   └── eval/qa.jsonl        # 評価用 41問（正解セクション付き）
-├── steps/step1_naive_rag.py # 1ファイル完結の素朴な RAG
-├── demo.py                  # 対話デモ
+├── steps/                   # 段階的に理解するためのウォークスルー
+│   ├── step1_naive_rag.py   # 1ファイル完結の素朴な RAG
+│   ├── step2_chunking.py    # チャンク戦略で結果がどう変わるか
+│   ├── step3_hybrid.py      # BM25と密ベクトルの補完性、RRFの計算
+│   └── step4_rerank.py      # 2段構えの意味、候補数の決め方
+├── app.py / web/index.html  # ブラウザで動くチャットデモ
+├── demo.py                  # ターミナルの対話デモ
 └── reports/                 # 評価結果（自動生成）
 ```
 
