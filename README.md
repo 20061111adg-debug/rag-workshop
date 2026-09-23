@@ -410,16 +410,6 @@ rag-workshop/
 └── reports/                 # 評価結果（自動生成）
 ```
 
----
-
-## 自社の文書で試す
-
-1. `data/corpus/` に Markdown を置く（`## ` 見出しで構造化されているほど精度が出る）。
-   frontmatter に `doc_id` / `title` / `updated` / `owner` を書くと引用に反映される。
-2. `data/eval/qa.jsonl` に自社文書向けの質問と正解セクションを書く。
-   **20問あれば構成間の優劣は十分見える。** ここが最も価値の高い資産になる。
-3. `./.venv/bin/python -m evaluation.run_eval` で比較。
-
 `evaluation/dataset.py` の `validate()` が、
 存在しないセクションを正解に指定していないか起動時に検査する
 （評価セットの typo は「アルゴリズムが悪い」と誤診させる最大の原因）。
