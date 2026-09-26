@@ -99,19 +99,41 @@ td.r{text-align:right;font-variant-numeric:tabular-nums}
 <div class="notes"><b>話す内容</b>　今日いちばん伝えたい点です。AIに検索機能は付いていません。探すのは普通のプログラムで、AIは渡された文章を読んでいるだけです。</div>
 
 <section class="slide">
-  <h2>仕組みは 3 ステップだけ</h2><p class="sub">&nbsp;</p>
-  <div class="cols">
-    <div class="card"><div class="num">1</div><h3>文書を小分けにする</h3>
-      <p>規程を丸ごとは渡せない。あらかじめ小さく切っておく。<span class="hi">どこで切るかが最重要。</span></p></div>
-    <div class="card"><div class="num">2</div><h3>質問に近い紙を探す</h3>
-      <p>言葉の一致で探す方法と、意味の近さで探す方法がある。<span class="hi">得意分野が逆。</span></p></div>
-    <div class="card"><div class="num">3</div><h3>AI に渡す</h3>
-      <p>見つけた紙を質問の上に貼る。「書いてなければ書いてないと答えて」も一緒に指示する。</p></div>
+  <h2>使われている技術は 6 つだけ</h2>
+  <p class="sub">準備が 3 つ、質問が来てから 3 つ</p>
+  <p style="font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:8px">準備すること（質問が来る前に 1 回やるだけ）</p>
+  <div class="cols" style="margin-bottom:16px">
+    <div class="card"><div style="display:flex;gap:11px;align-items:center;margin-bottom:8px">
+      <div class="num" style="margin:0;width:30px;height:30px;font-size:14px">1</div>
+      <h3 style="margin:0">切る</h3></div>
+      <p style="font-size:12px">分厚い規程を紙切れに小分けする。どこで切るかが精度に一番効く。<br><b>〈チャンク分割〉</b></p></div>
+    <div class="card"><div style="display:flex;gap:11px;align-items:center;margin-bottom:8px">
+      <div class="num" style="margin:0;width:30px;height:30px;font-size:14px">2</div>
+      <h3 style="margin:0">数字にする</h3></div>
+      <p style="font-size:12px">紙切れを数字の列に変換する。意味が近い紙は近い数字になる。<br><b>〈埋め込み〉</b></p></div>
+    <div class="card"><div style="display:flex;gap:11px;align-items:center;margin-bottom:8px">
+      <div class="num" style="margin:0;width:30px;height:30px;font-size:14px">3</div>
+      <h3 style="margin:0">しまう</h3></div>
+      <p style="font-size:12px">数字をまとめて棚にしまう。これで探せる状態になる。<br><b>〈索引〉</b></p></div>
   </div>
-  <div class="foot"><div class="big" style="color:var(--terra)">この 3 つで全部。特別な魔法は無い。</div></div>
+  <p style="font-size:12.5px;font-weight:700;color:var(--muted);margin-bottom:8px">質問が来てから</p>
+  <div class="cols">
+    <div class="card"><div style="display:flex;gap:11px;align-items:center;margin-bottom:8px">
+      <div class="num" style="margin:0;width:30px;height:30px;font-size:14px">4</div>
+      <h3 style="margin:0">探す</h3></div>
+      <p style="font-size:12px">同じ言葉の紙を探す方法と、意味が近い紙を探す方法がある。<br><b>〈BM25 / ベクトル検索〉</b></p></div>
+    <div class="card"><div style="display:flex;gap:11px;align-items:center;margin-bottom:8px">
+      <div class="num" style="margin:0;width:30px;height:30px;font-size:14px">5</div>
+      <h3 style="margin:0">順番を決める</h3></div>
+      <p style="font-size:12px">2つの結果を1つにまとめる。上位だけ見比べて並べ直す。<br><b>〈融合 / リランク〉</b></p></div>
+    <div class="card terra"><div style="display:flex;gap:11px;align-items:center;margin-bottom:8px">
+      <div class="num" style="margin:0;width:30px;height:30px;font-size:14px;background:#fff;color:var(--terra)">6</div>
+      <h3 style="margin:0">AI に渡す</h3></div>
+      <p style="font-size:12px">上位の紙を数枚、質問と一緒に。ここで初めて AI が登場する。<br><b>〈プロンプト〉</b></p></div>
+  </div>
   <div class="pgn">3 / 10</div>
 </section>
-<div class="notes"><b>話す内容</b>　この3ステップだけ覚えて帰っていただければ十分です。</div>
+<div class="notes"><b>話す内容</b>　RAGの検索に使われる技術は大きくこの6つです。準備の3つは事前に1回やるだけ。質問のたびに動くのは後半の3つです。</div>
 
 <section class="slide">
   <h2>いちばん効いたのは「文書の切り方」</h2>
