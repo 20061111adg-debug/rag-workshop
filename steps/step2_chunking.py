@@ -38,6 +38,9 @@ def show_chunks(name: str, chunks) -> None:
 
 
 def main() -> None:
+    import goal
+
+    print(goal.describe())
     docs = load_corpus("data/corpus")
     embedder = E5Embedder()  # 全戦略で同じモデルを使う＝違いは切り方だけ
 
@@ -61,6 +64,9 @@ def main() -> None:
         )
         top = chunks[ranked[0][0]]
         print(f"  {name:<16} 正解の順位: {rank:>2}位   1位: {top.doc_id} / {top.primary_heading}")
+
+    goal.judge("Step 2（見出しで切る＋文脈ヘッダ／意味で探す）",
+               DenseRetriever(STRATEGIES["heading_context"](docs), embedder))
 
     print("""
 考えてほしいこと

@@ -49,6 +49,9 @@ def sort_key(rank) -> int:
 
 
 def main() -> None:
+    import goal
+
+    print(goal.describe())
     docs = load_corpus("data/corpus")
     chunks = STRATEGIES["heading_context"](docs)
     queries = [q for q in load_queries() if q.answerable]
@@ -132,6 +135,8 @@ def main() -> None:
     for q, r_rrf, r_w in diffs:
         better = "RRF" if sort_key(r_rrf) < sort_key(r_w) else "加重和"
         print(f"    {q.question[:34]:<36} RRF {fmt(r_rrf):>5} / 加重和 {fmt(r_w):>5}  → {better}の勝ち")
+    goal.judge("Step 3（言葉の検索と意味の検索を RRF で混ぜる）", rrf)
+
     print("""
   全体では RRF 0.935 / 加重和 0.902（MRR）で RRF が上。
   加重和はスコアを min-max 正規化して足すが、正規化の基準が

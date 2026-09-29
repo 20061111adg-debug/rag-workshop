@@ -92,21 +92,39 @@ def build_prompt(question: str, hits: list[str]) -> str:
     )
 
 
+# 正解の記述。このプログラムは見出しを保持しないので、本文の一部で判定する
+GOLD_MARK = "在宅勤務手当として月額5,000円"
+
+
 def main() -> None:
+    from goal import QUESTIONS, PASS_K, describe  # steps/goal.py
+
+    print(describe())
+
     chunks = split(load_texts())
     matrix, embed_query = vectorize(chunks)
     print(f"{len(chunks)} チャンク / 語彙 {matrix.shape[1]} 次元\n")
 
-    for q in [
-        "在宅勤務の手当はいくらですか",
-        "家で働くとお金はもらえますか",  # 上と同じ意味。語彙が違うだけ
-    ]:
+    ranks = []
+    for q in QUESTIONS:
         print(f"Q: {q}")
-        hits = search(matrix, embed_query(q), TOP_K)
-        for rank, (i, s) in enumerate(hits, 1):
+        ordered = search(matrix, embed_query(q), len(chunks))
+        for rank, (i, s) in enumerate(ordered[:TOP_K], 1):
             doc_id, text = chunks[i]
             print(f"  {rank}. {s:.3f} [{doc_id}] {text[:56].replace(chr(10), ' ')}…")
+        found = next((r for r, (i, _) in enumerate(ordered, 1)
+                      if GOLD_MARK in chunks[i][1]), None)
+        ranks.append(found)
         print()
+
+    print("=" * 62)
+    print("判定 : Step 1（300字でぶつ切り＋文字の一致だけで探す）")
+    print("=" * 62)
+    for q, r in zip(QUESTIONS, ranks):
+        mark = "○" if (r is not None and r <= PASS_K) else "×"
+        print(f"  {mark} {q:<22} 正解は {('圏外' if r is None else str(r)+'位'):>5}")
+    ok = all(r is not None and r <= PASS_K for r in ranks)
+    print(f"\n  → {'合格' if ok else '不合格'}（合格条件: 全問で上位 {PASS_K} 件以内）")
 
     print("=" * 70)
     print("この素朴な実装の問題点（Step 2 以降で1つずつ潰していく）")

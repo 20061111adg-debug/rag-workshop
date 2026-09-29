@@ -65,6 +65,9 @@ def score(retriever, queries, chunks) -> dict:
 
 
 def main() -> None:
+    import goal
+
+    print(goal.describe())
     docs = load_corpus("data/corpus")
     chunks = STRATEGIES["heading_context"](docs)
     queries = [q for q in load_queries() if q.answerable]
@@ -130,6 +133,9 @@ def main() -> None:
         s1 = score(base, queries, chunks)["mrr"]
         s2 = score(RerankRetriever(base, ce, candidate_k=20), queries, chunks)["mrr"]
         print(f"  {name:<34}{s1:>12.3f}{s2:>16.3f}")
+    goal.judge("Step 4（候補20件をクロスエンコーダで並べ直す）",
+               RerankRetriever(hybrid, ce, candidate_k=20))
+
     print("""
   1段目では 0.927 と 0.935 で差があるのに、リランク後は同じ値になる。
   候補20件の中に正解が入ってさえいれば、1段目の細かい順位差は
